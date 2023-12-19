@@ -4,10 +4,7 @@ const cors = require("cors");
 const {Pool} = require("pg")
 
 const pool = new Pool({
-  connectionString: process.env.DATABASE_URL,
-  ssl: {
-    rejectUnauthorized: false
-  }
+  connectionString: process.env.DATABASE_URL
 });
 
 const app = express();
@@ -17,10 +14,12 @@ app.use(cors());
 
 app.get("/api/users", async (req, res) => {
   try{
-    res.json({ message: "success!" });
-  }catch(err){
-    console.log(err)
-  } 
+    const { rows } = await pool.query('SELECT * FROM users;');
+    res.status(200).json(rows);
+  } catch (err) {
+    console.error(err);
+    res.status(500).send('Server Error');
+  }
 });
 
 
