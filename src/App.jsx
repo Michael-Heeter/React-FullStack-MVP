@@ -9,18 +9,16 @@ function App() {
   const [selectedDate, setSelectedDate] = useState(null);
   const [isUserVisible, setIsUserVisible] = useState(true);
   const [showHideButtonVisible, setShowHideButtonVisible] = useState(true);
-  const [dataFromDatabase, setDataFromDatabase] = useState([])
+  const [dataFromDatabase, setDataFromDatabase] = useState({})
 
   const handleDateClick = (date) => {
     setSelectedDate(date);
     setShowCalendar(false);
-    console.log('here');
   };
 
   const handleShowCalendar = () => {
     setSelectedDate(null);
     setShowCalendar(true);
-    console.log('there');
   };
 
   const handleToggleCalendar = () => {
@@ -28,18 +26,18 @@ function App() {
   };
 
   useEffect(() => {
-    const fetchTasks = async () => {
+    const fetchUsers = async () => {
       try {
-        const response = await fetch('http://localhost:5432/api/tasks')
+        const response = await fetch('/api/users')
         const data = await response.json()
         setDataFromDatabase(data)
       } catch (err){
-        console.log('error')
+        console.log(err)
       }
     }
-    fetchTasks()
+    fetchUsers()
   }, [])
-  
+
   return (
     <>
       <TopMain isUserVisible={isUserVisible} setIsUserVisible={setIsUserVisible} />
