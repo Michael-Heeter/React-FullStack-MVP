@@ -1,6 +1,6 @@
 // Inside TopMain.jsx
 import React from 'react';
-import Users from './users.jsx';
+import TopUsers from './topusers.jsx';
 
 const TopMain = ({ isUserVisible, setIsUserVisible }) => {
     const handleItemClick = () => {
@@ -14,7 +14,7 @@ const TopMain = ({ isUserVisible, setIsUserVisible }) => {
     return (
         <div id="topmain">
             <ul><li onClick={toMainPage}>TaskEZ</li></ul>
-            {isUserVisible && <Users handleItemClick={handleItemClick} />}
+            {isUserVisible && <TopUsers handleItemClick={handleItemClick} />}
         </div>
     );
 };
