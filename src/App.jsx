@@ -106,6 +106,7 @@ function App() {
         (<TaskList TaskList={TaskList}
           singleUserTasks={singleUserTasks}
           setShowCalendar={setShowCalendar}
+          singleUser={singleUser}
           setTaskListVisible={setTaskListVisible}
           setCreateTask={setCreateTask}/>)}
       {createTask &&

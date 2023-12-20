@@ -1,0 +1,96 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-Family: 'MedievalSharp', cursive;
+}
+
+#mainpage {
+    width: 50%; /* Adjust the width as needed */
+    margin: 0 auto; /* Set left and right margin to auto */
+    margin-top: 25%;
+    font-size: 62px;
+  }
+
+#topmain {
+    display: flex;
+    justify-content: space-between;
+    font-size: 3rem;
+    background-color: gainsboro;
+}
+
+#tomainmenu {
+    margin: 2rem;
+    list-style: none;
+}
+
+#topright {
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center; /* Adjust alignment based on your needs */
+    list-style: none;
+    margin: 2rem;
+    gap: 4rem;
+}
+
+#themonthlycalendar {
+    width: 95%;
+    border-collapse: collapse;
+    table-layout: fixed;
+    margin: 0 auto;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+}
+
+#themonthlycalendar td {
+    height: 50px; /* Adjust the height as needed */
+    text-align: center; /* Center the content vertically */
+    vertical-align: middle; /* Center the content horizontally */
+    border: 1px solid #ccc; /* Add borders for visual separation */
+}
+
+#themonthlycalendar th, #themonthlycalendar td {
+    border: 1px solid black;
+    padding: 10px;
+    text-align: center;
+    width: 14.28%; /* Set the width to distribute evenly across 7 columns (100% / 7) */
+}
+
+#themonthlycalendar th {
+    background-color: #f0f0f0;
+}
+
+.taskgroup {
+    list-style: none;
+    padding: 0;
+}
+  
+.atask {
+    display: flex;
+    align-items: flex-start; /* Align items to the start (top) of the flex container */
+    margin-bottom: 0.8rem; /* Adjust as needed for spacing between tasks */
+    margin-left: 1rem;
+    padding: 0.5rem;
+}
+  
+  .atask p {
+    margin: 0;
+    padding-right: 1rem; /* Adjust as needed for spacing between text and buttons */
+    border: 0.3rem solid #ccc;
+    padding-bottom: 1.1rem;
+  }
+  
+  .atask .buttonsgroup {
+    margin-left: 0.6rem; /* Push buttons to the right by taking all available space */
+    margin-bottom: 0.4rem;
+    gap: 2rem; /* Adjust as needed for spacing between buttons */
+  }
+
+  .taskbutton button {
+    border-radius: 8px; /* Adjust the value to control the roundness */
+    padding: 10px; /* Add padding for a better appearance */
+    margin-right: 8px; /* Add margin between buttons if needed */
+  }
+
+  .stylethebutton {
+    border-radius: 8px;
+  }

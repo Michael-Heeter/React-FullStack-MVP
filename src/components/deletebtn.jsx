@@ -1,6 +1,6 @@
 import React from 'react';
 
-const DeleteButton = ({ taskId, onDelete }) => {
+const DeleteButton = ({ taskId, onDelete, setTaskListVisible }) => {
   const handleDelete = async () => {
     try {
       const response = await fetch(`http://localhost:5000/api/task/${taskId}`, {
@@ -8,7 +8,11 @@ const DeleteButton = ({ taskId, onDelete }) => {
       });
 
       if (response.ok) {
-        console.log(`Task with ID ${taskId} deleted successfully`);
+        setTasks((prevTasks) =>
+        prevTasks.map((task) =>
+          task.id === taskId ? { ...task, name: editedName, due_date: editedDueDate, /* ...other fields */ } : task
+        )
+      );
       } else {
         console.error(`Failed to delete task with ID ${taskId}`);
       }
@@ -17,10 +21,12 @@ const DeleteButton = ({ taskId, onDelete }) => {
     }
 
     onDelete(taskId);
+    setTaskListVisible(false)
+    setTaskListVisible(true)
   };
 
   return (
-    <button onClick={handleDelete} style={{ color: 'red' }}>
+    <button className='taskbtn' onClick={handleDelete} style={{ color: 'white', backgroundColor: 'red', borderRadius: '8px', marginLeft: '0.5rem' }}>
       Delete
     </button>
   );

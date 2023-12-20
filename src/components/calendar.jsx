@@ -1,7 +1,6 @@
 
 // calendar.jsx
 import React, { useState, useEffect } from 'react';
-import TasksOfTheDay from './tasksoftheday';
 import TaskList from './taskslist';
 
 const Calendar = (props) => {
@@ -10,6 +9,7 @@ const Calendar = (props) => {
   const [month, setMonth] = useState(currentDate.getMonth() + 1);
   const [calendarData, setCalendarData] = useState([]);
   const [selectedDayTasks, setSelectedDayTasks] = useState([]);
+  const [displayDueDate, setDisplayDueDate] = useState(true);
   
 
   const createCalendar = (year, month) => {
@@ -60,16 +60,20 @@ const Calendar = (props) => {
     createCalendar(year, month)
   }, [year, month]);
 
+  const handleToggleClick = () => {
+    setDisplayDueDate((prev) => !prev);
+  };
+
   return (
     <div>
-      <div>
-        <button onClick={() => setYear(year - 1)}>Previous Year</button>
-        <button onClick={() => setMonth(month === 1 ? 12 : month - 1)}>Previous Month</button>
-        <button onClick={() => setMonth(month === 12 ? 1 : month + 1)}>Next Month</button>
-        <button onClick={() => setYear(year + 1)}>Next Year</button>
+      <div style={{width: '30%', margin: '2rem auto'}}>
+        <button className='stylethebutton' onClick={() => setYear(year - 1)}>Previous Year</button>
+        <button className='stylethebutton' onClick={() => setMonth(month === 1 ? 12 : month - 1)}>Previous Month</button>
+        <button className='stylethebutton' onClick={() => setMonth(month === 12 ? 1 : month + 1)}>Next Month</button>
+        <button className='stylethebutton' onClick={() => setYear(year + 1)}>Next Year</button>
       </div>
       <div>
-        <h2>{`${new Date(year, month - 1, 1).toLocaleString('default', {
+        <h2 style={{width: '15%', margin: '2rem auto'}}>{`${new Date(year, month - 1, 1).toLocaleString('default', {
           month: 'long',
         })} ${year}`}</h2>
       </div>
@@ -96,8 +100,8 @@ const Calendar = (props) => {
                         {date.getDate()}
                         {/* Conditional rendering based on date ID */}
                         {props.singleUserTasks.map((task) => {
-                          const taskDueDate = new Date(task.due_date);
-                          const taskFormattedDate = taskDueDate.toISOString().split('T')[0];
+                          const taskDate = displayDueDate ? new Date(task.due_date) : new Date(task.start_date);
+                          const taskFormattedDate = taskDate.toISOString().split('T')[0];
 
                           if (taskFormattedDate === date.toISOString().split('T')[0]) {
                             return (
@@ -120,7 +124,12 @@ const Calendar = (props) => {
           ))}
         </tbody>
       </table>
+      <div><div>
+      <button style={{ width: '7%', margin: '1rem auto', display: 'block' }} className='stylethebutton' onClick={handleToggleClick}>    Toggle Start/Due Dates
+  </button>
+</div>
 
+</div>
       {/* Render TaskList component with selected date and tasks */}
       {props.taskListVisible && (
         <TaskList
