@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-const EditTaskButton = ({ taskId, onEdit, setTaskListVisible }) => {
+const EditTaskButton = ({ taskId, onEdit, setTaskListVisible, setShowCalendar }) => {
     const [editMode, setEditMode] = useState(false);
   const [editedName, setEditedName] = useState('');
   const [editedDueDate, setEditedDueDate] = useState('');
@@ -11,6 +11,7 @@ const EditTaskButton = ({ taskId, onEdit, setTaskListVisible }) => {
     setEditMode(true);
   };
 
+  
   const handleSave = async () => {
     try {
         const response = await fetch(`http://localhost:5000/api/task/${taskId}`, {
@@ -39,6 +40,8 @@ const EditTaskButton = ({ taskId, onEdit, setTaskListVisible }) => {
 
     onEdit(taskId, { name: editedName, due_date: editedDueDate, start_date: editedStartDate, description: editedDescription });
     setEditMode(false);
+    setShowCalendar(true)
+    setTaskListVisible(false)
   };
 
   return (

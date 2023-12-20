@@ -8,6 +8,7 @@ const CreateTaskButton = ({ setCreateTask, singleUser, setTaskListVisible, singl
     const startDate = document.getElementById('start_date').value;
     const useID = singleUser.id;
 
+    
     try {
       const response = await fetch('http://localhost:5000/api/task', {
         method: 'POST',

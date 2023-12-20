@@ -24,8 +24,6 @@ const TopMain = ({ isUserVisible, setIsUserVisible, setAllUserClicked, setShowCa
     setAllUserClicked(false);
     setShowCalendar(false)
     setTaskListVisible(false)
-
-    // Hide the create user form when returning to the main page
     setCreateUserVisible(false);
   };
 

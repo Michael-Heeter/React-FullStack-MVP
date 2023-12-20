@@ -2,7 +2,7 @@ import React from 'react';
 import EditTaskButton from './editbtn'; // Make sure to adjust the import path based on your project structure
 import DeleteButton from './deletebtn'; // Make sure to adjust the import path based on your project structure
 
-const TaskList = ({ selectedDate, singleUserTasks, setShowCalendar, setTaskListVisible, setCreateTask, singleUser }) => {
+const TaskList = ({ selectedDate, singleUserTasks, setShowCalendar, setTaskListVisible, setCreateTask, singleUser, setLoading }) => {
     const handleDelete = (taskId) => {
       // Add your logic to delete the task with taskId
       console.log(`Deleting task with ID: ${taskId}`);
