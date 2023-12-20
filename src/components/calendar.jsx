@@ -1,6 +1,8 @@
-//calendar.jsx
-import { useState, useEffect } from 'react'
+
+// calendar.jsx
+import React, { useState, useEffect } from 'react';
 import TasksOfTheDay from './tasksoftheday';
+import TaskList from './taskslist';
 
 const Calendar = (props) => {
   const currentDate = new Date();
@@ -43,10 +45,12 @@ const Calendar = (props) => {
 
   const handleDateClick = (date) => {
     if (date) {
+      props.setTaskListVisible(true);
       const id = date.toISOString().split('T')[0];
       console.log(`Clicked on date with ID: ${id}`);
-      props.setSelectedDate(date.dueDate);
-      setSelectedDayTasks(date.tasks || []); // Set the tasks for the clicked date
+      props.setSelectedDate(id);
+      setSelectedDayTasks(date.tasks || []);
+      props.setShowCalendar(false);
     }
   };
 
@@ -58,13 +62,13 @@ const Calendar = (props) => {
 
   return (
     <div>
-        <div>
-            <button onClick={() => setYear(year - 1)}>Previous Year</button>
-            <button onClick={() => setMonth(month === 1 ? 12 : month - 1)}>Previous Month</button>
-            <button onClick={() => setMonth(month === 12 ? 1 : month + 1)}>Next Month</button>
-            <button onClick={() => setYear(year + 1)}>Next Year</button>
-            </div>
-            <div>
+      <div>
+        <button onClick={() => setYear(year - 1)}>Previous Year</button>
+        <button onClick={() => setMonth(month === 1 ? 12 : month - 1)}>Previous Month</button>
+        <button onClick={() => setMonth(month === 12 ? 1 : month + 1)}>Next Month</button>
+        <button onClick={() => setYear(year + 1)}>Next Year</button>
+      </div>
+      <div>
         <h2>{`${new Date(year, month - 1, 1).toLocaleString('default', {
           month: 'long',
         })} ${year}`}</h2>
@@ -116,6 +120,15 @@ const Calendar = (props) => {
           ))}
         </tbody>
       </table>
+
+      {/* Render TaskList component with selected date and tasks */}
+      {props.taskListVisible && (
+        <TaskList
+          selectedDate={props.selectedDate}
+          singleUserTasks={selectedDayTasks}
+          setShowCalendar={props.setShowCalendar}
+        />
+      )}
     </div>
   );
 };

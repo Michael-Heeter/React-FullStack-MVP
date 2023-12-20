@@ -1,11 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import Loading from './components/loading.jsx'
 import TopMain from './components/topmain.jsx';
-import TopUsers from './components/topusers.jsx'
 import MainPage from './components/mainpage.jsx';
 import Calendar from './components/calendar.jsx';
 import Users from './components/users.jsx'
-import TasksOfTheDay from './components/tasksoftheday.jsx';
+import TaskList from './components/taskslist.jsx';
 
 function App() {
   const [loading, setLoading] = useState(true)
@@ -17,6 +16,8 @@ function App() {
   const [singleUser, setSingleUser] = useState(null)
   const [singleUserTasks, setSingleUserTasks] = useState([])
   const [allUserClicked, setAllUserClicked] = useState(false)
+  const [tasksList, setTasksList] = useState([])
+  const [taskListVisible, setTaskListVisible] = useState(false)
 
   const handleDateClick = (date) => {
     setSelectedDate(date);
@@ -74,6 +75,7 @@ function App() {
         recievingUsers={recievingUsers}
         setAllUserClicked={setAllUserClicked}
         getSingleUserTasks={getSingleUserTasks}
+        setShowCalendar={setShowCalendar}
         />
       </>
     )
@@ -84,22 +86,22 @@ function App() {
       <TopMain isUserVisible={isUserVisible} setIsUserVisible={setIsUserVisible} setAllUserClicked={setAllUserClicked} />
       {isUserVisible && <MainPage MainPage={MainPage} />}
       {/* Conditionally render the show/hide button based on showHideButtonVisible */}
-      {showHideButtonVisible && (
-        <button onClick={handleToggleCalendar}>
-          {showCalendar ? 'Hide Calendar' : 'Show Calendar'}
-        </button>
-      )}
       {showCalendar && (
         <Calendar
           getSingleUserTasks={getSingleUserTasks}
           singleUser={singleUser}
+          handleDateClick={handleDateClick}
           singleUserTasks={singleUserTasks}
           onDateClick={handleDateClick}
           setSelectedDate={setSelectedDate}
+          setShowCalendar={setShowCalendar}
+          tasksList={tasksList}
+          setTaskListVisible={setTaskListVisible}
           Calendar={Calendar}
         />
-      )}
-      <TasksOfTheDay TasksOfTheDay={TasksOfTheDay} singleUserTasks={singleUserTasks}/>
+        
+      )}{taskListVisible && (<TaskList TaskList={TaskList}
+      singleUserTasks={singleUserTasks}/>)}
     </>
   );
 }

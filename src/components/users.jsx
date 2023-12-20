@@ -7,6 +7,7 @@ const Users = (props) => {
         props.setSingleUserTasks(user); // Adjust this line based on your requirements
         props.setAllUserClicked(true);
         props.getSingleUserTasks(user.id)
+        props.setShowCalendar(true)
         console.log(props.getSingleUserTasks)
       };
 
