@@ -1,15 +1,22 @@
 import React, { useState, useEffect } from 'react';
+import Loading from './components/loading.jsx'
 import TopMain from './components/topmain.jsx';
+import TopUsers from './components/topusers.jsx'
 import MainPage from './components/mainpage.jsx';
 import Calendar from './components/calendar.jsx';
+import Users from './components/users.jsx'
 import TasksOfTheDay from './components/tasksoftheday.jsx';
 
 function App() {
+  const [loading, setLoading] = useState(true)
   const [showCalendar, setShowCalendar] = useState(false);
   const [selectedDate, setSelectedDate] = useState(null);
   const [isUserVisible, setIsUserVisible] = useState(true);
   const [showHideButtonVisible, setShowHideButtonVisible] = useState(true);
-  const [dataFromDatabase, setDataFromDatabase] = useState({})
+  const [dataFromDatabase, setDataFromDatabase] = useState([])
+  const [recievingUsers, setRecievingUsers] = useState([])
+  const [singleUserTasks, setSingleUserTasks] = useState(null)
+  const [allUserClicked, setAllUserClicked] = useState(false)
 
   const handleDateClick = (date) => {
     setSelectedDate(date);
@@ -25,18 +32,39 @@ function App() {
     setShowCalendar(prevState => !prevState); // Toggle the calendar visibility
   };
 
+  const getSingleUserTasks = async (id) => {
+    const res = await fetch(`http://localhost:5000/api/usertasks/${id}`)
+    const data = await res.json()
+    setSingleUserTasks(data)
+  }
+
   useEffect(() => {
     const fetchUsers = async () => {
       try {
-        const response = await fetch('/api/users')
+        const response = await fetch(`http://localhost:5000/api/users`)
         const data = await response.json()
-        setDataFromDatabase(data)
+        setRecievingUsers(data)
+        setLoading(false)
       } catch (err){
         console.log(err)
       }
     }
     fetchUsers()
   }, [])
+
+  console.log(recievingUsers)
+  console.log(allUserClicked)
+
+  if(loading){
+    return <Loading />
+  }
+
+  if(!loading && allUserClicked){
+    return (
+      <Users Users={Users}
+      getSingleUser={getSingleUser}/>
+    )
+  }
 
   return (
     <>

@@ -2,9 +2,13 @@
 import React from 'react';
 import TopUsers from './topusers.jsx';
 
-const TopMain = ({ isUserVisible, setIsUserVisible }) => {
-    const handleItemClick = () => {
+const TopMain = ({ isUserVisible, setIsUserVisible, setAllUserClicked}) => {
+    const handleItemClick = (e) => {
+        console.log(e.currentTarget.id)
         setIsUserVisible(false); // Hide Users when an item in the list is clicked
+        if(e.currentTarget.id === "viewusers"){
+            setAllUserClicked(true)
+        }
     };
 
     const toMainPage = () => {

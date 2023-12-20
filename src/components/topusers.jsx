@@ -1,6 +1,6 @@
 import React from 'react';
 
-const TopUsers = ({ handleItemClick }) => {
+const TopUsers = ({ handleItemClick, setUserButton }) => {
     return (
         <ul id="topright">
             <li id="viewusers" onClick={handleItemClick}>Users</li>
