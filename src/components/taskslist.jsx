@@ -1,9 +1,10 @@
-// taskslist.jsx
 import React from 'react';
+// import CreateTaskButton from './createtaskbutton'; // Import your CreateTaskButton component
 
-const TaskList = ({ selectedDate, singleUserTasks, setShowCalendar }) => {
+const TaskList = ({ selectedDate, singleUserTasks, setShowCalendar, setTaskListVisible, setCreateTask }) => {
   return (
     <div>
+      <button onClick={() => [setTaskListVisible(false), setCreateTask(true)]}>Create Task</button>
       <h2>Tasks for {selectedDate}</h2>
       <ul>
         {singleUserTasks.map((task) => (
@@ -14,6 +15,7 @@ const TaskList = ({ selectedDate, singleUserTasks, setShowCalendar }) => {
           </li>
         ))}
       </ul>
+      <button onClick={() => [setShowCalendar(true), setTaskListVisible(false)]}>Go Back to Calendar</button>
     </div>
   );
 };

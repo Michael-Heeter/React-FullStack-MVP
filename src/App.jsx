@@ -5,6 +5,7 @@ import MainPage from './components/mainpage.jsx';
 import Calendar from './components/calendar.jsx';
 import Users from './components/users.jsx'
 import TaskList from './components/taskslist.jsx';
+import CreateTaskButton from './components/createtaskbutton.jsx';
 
 function App() {
   const [loading, setLoading] = useState(true)
@@ -18,6 +19,7 @@ function App() {
   const [allUserClicked, setAllUserClicked] = useState(false)
   const [tasksList, setTasksList] = useState([])
   const [taskListVisible, setTaskListVisible] = useState(false)
+  const [createTask, setCreateTask] = useState(false)
 
   const handleDateClick = (date) => {
     setSelectedDate(date);
@@ -83,7 +85,7 @@ function App() {
 
   return (
     <>
-      <TopMain isUserVisible={isUserVisible} setIsUserVisible={setIsUserVisible} setAllUserClicked={setAllUserClicked} />
+      <TopMain isUserVisible={isUserVisible} setIsUserVisible={setIsUserVisible} setAllUserClicked={setAllUserClicked} setShowCalendar={setShowCalendar}/>
       {isUserVisible && <MainPage MainPage={MainPage} />}
       {/* Conditionally render the show/hide button based on showHideButtonVisible */}
       {showCalendar && (
@@ -100,8 +102,19 @@ function App() {
           Calendar={Calendar}
         />
         
-      )}{taskListVisible && (<TaskList TaskList={TaskList}
-      singleUserTasks={singleUserTasks}/>)}
+      )}{taskListVisible &&
+        (<TaskList TaskList={TaskList}
+          singleUserTasks={singleUserTasks}
+          setShowCalendar={setShowCalendar}
+          setTaskListVisible={setTaskListVisible}
+          setCreateTask={setCreateTask}/>)}
+      {createTask &&
+        (<CreateTaskButton CreateTaskButton={CreateTaskButton}
+          setCreateTask={setCreateTask}
+          singleUser={singleUser}
+          setTaskListVisible={setTaskListVisible}
+          singleUserTasks={singleUserTasks}
+          setSingleUserTasks={setSingleUserTasks}/>)}
     </>
   );
 }

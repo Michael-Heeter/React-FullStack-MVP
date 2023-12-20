@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import TopUsers from './topusers.jsx';
 import CreateUser from './createuser.jsx';
 
-const TopMain = ({ isUserVisible, setIsUserVisible, setAllUserClicked }) => {
+const TopMain = ({ isUserVisible, setIsUserVisible, setAllUserClicked, setShowCalendar}) => {
   const [isCreateUserVisible, setCreateUserVisible] = useState(false);
 
   const handleItemClick = (e) => {
@@ -22,6 +22,7 @@ const TopMain = ({ isUserVisible, setIsUserVisible, setAllUserClicked }) => {
   const toMainPage = () => {
     setIsUserVisible(true);
     setAllUserClicked(false);
+    setShowCalendar(false)
 
     // Hide the create user form when returning to the main page
     setCreateUserVisible(false);
