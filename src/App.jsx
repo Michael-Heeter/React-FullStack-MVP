@@ -13,8 +13,8 @@ function App() {
   const [selectedDate, setSelectedDate] = useState(null);
   const [isUserVisible, setIsUserVisible] = useState(true);
   const [showHideButtonVisible, setShowHideButtonVisible] = useState(true);
-  const [dataFromDatabase, setDataFromDatabase] = useState([])
   const [recievingUsers, setRecievingUsers] = useState([])
+  const [singleUser, setSingleUser] = useState(null)
   const [singleUserTasks, setSingleUserTasks] = useState(null)
   const [allUserClicked, setAllUserClicked] = useState(false)
 
@@ -36,6 +36,12 @@ function App() {
     const res = await fetch(`http://localhost:5000/api/usertasks/${id}`)
     const data = await res.json()
     setSingleUserTasks(data)
+    console.log(data)
+    setAllUserClicked(false)
+  }
+
+  const createUser = async () => {
+    const res = await fetch(`http://localhost:5000/api/`)
   }
 
   useEffect(() => {
@@ -46,14 +52,11 @@ function App() {
         setRecievingUsers(data)
         setLoading(false)
       } catch (err){
-        console.log(err)
+        console.error(err)
       }
     }
     fetchUsers()
   }, [])
-
-  console.log(recievingUsers)
-  console.log(allUserClicked)
 
   if(loading){
     return <Loading />
@@ -61,14 +64,23 @@ function App() {
 
   if(!loading && allUserClicked){
     return (
-      <Users Users={Users}
-      getSingleUser={getSingleUser}/>
+      <>
+        <TopMain setSingleUserTasks={setSingleUserTasks} isUserVisible={isUserVisible} setIsUserVisible={setIsUserVisible} setAllUserClicked={setAllUserClicked} recievingUsers={recievingUsers} setRecievingUsers={setRecievingUsers}/>
+        {isUserVisible && <MainPage MainPage={MainPage} />}
+        <Users Users={Users}
+        setSingleUser={setSingleUser}
+        setSingleUserTasks={setSingleUserTasks}
+        recievingUsers={recievingUsers}
+        setAllUserClicked={setAllUserClicked}
+        getSingleUserTasks={getSingleUserTasks}
+        />
+      </>
     )
   }
 
   return (
     <>
-      <TopMain isUserVisible={isUserVisible} setIsUserVisible={setIsUserVisible} />
+      <TopMain isUserVisible={isUserVisible} setIsUserVisible={setIsUserVisible} setAllUserClicked={setAllUserClicked} />
       {isUserVisible && <MainPage MainPage={MainPage} />}
       {/* Conditionally render the show/hide button based on showHideButtonVisible */}
       {showHideButtonVisible && (
@@ -78,6 +90,7 @@ function App() {
       )}
       {showCalendar && (
         <Calendar
+          getSingleUserTasks={getSingleUserTasks}
           onDateClick={handleDateClick}
           setSelectedDate={setSelectedDate}
           Calendar={Calendar}

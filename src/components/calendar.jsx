@@ -1,9 +1,14 @@
+//calendar.jsx
 import { useState, useEffect } from 'react'
+import TasksOfTheDay from './tasksoftheday';
 
-const Calendar = ({selectedDate, setSelectedDate}) => {
-  const currentDate = new Date()
-  const [year, setYear] = useState(currentDate.getFullYear())
-  const [month, setMonth] = useState(currentDate.getMonth() + 1)
+const Calendar = (props) => {
+  const currentDate = new Date();
+  const [year, setYear] = useState(currentDate.getFullYear());
+  const [month, setMonth] = useState(currentDate.getMonth() + 1);
+  const [calendarData, setCalendarData] = useState([]);
+  const [selectedDayTasks, setSelectedDayTasks] = useState([]);
+  
 
   const createCalendar = (year, month) => {
     const firstDay = new Date(year, month - 1, 1);
@@ -37,16 +42,16 @@ const Calendar = ({selectedDate, setSelectedDate}) => {
   
 
   const handleDateClick = (date) => {
-    if (date) {
-      console.log(date.toDateString()); // Log the date when clicked
-      setSelectedDate(date)
+    if (date && date.dueDate) {
+      console.log(date.dueDate.toDateString()); // Log the due_date when clicked
+      props.setSelectedDate(date.dueDate);
+      setSelectedDayTasks(date.tasks || []); // Set the tasks for the clicked date
     }
   };
 
   useEffect(() => {
     // Create the calendar when the year or month changes
-    const calendar = createCalendar(year, month);
-    console.log(calendar); // Log the generated calendar
+    createCalendar(year, month);
   }, [year, month]);
 
   return (
@@ -75,20 +80,24 @@ const Calendar = ({selectedDate, setSelectedDate}) => {
             </tr>
         </thead>
         <tbody>
-            {createCalendar(year, month).map((week, index) => (
-                <tr key={index}>
-                    {week.map((date, idx) => (
-                        <td key={idx} onClick={() => handleDateClick(date)}>
-                            {date ? (
-                            <div>{date.getDate()}</div>
-                            ) : (
-                            <div style={{ visibility: 'hidden' }}></div>
-                            )}
-                        </td>
-                    ))}
-                </tr>
+        {createCalendar(year, month).map((week, index) => (
+          <tr key={index}>
+            {week.map((date, idx) => (
+              <td key={idx} onClick={() => handleDateClick(date)}>
+                {date ? (
+                  <div>
+                    {date.getDate()}
+                    {/* Pass the tasks of the clicked date to TasksOfTheDay */}
+                    {selectedDayTasks.length > 0 && <TasksOfTheDay tasks={selectedDayTasks} />}
+                  </div>
+                ) : (
+                  <div style={{ visibility: 'hidden' }}></div>
+                )}
+              </td>
             ))}
-        </tbody>
+          </tr>
+        ))}
+      </tbody>
         </table>
     </div>
     );
