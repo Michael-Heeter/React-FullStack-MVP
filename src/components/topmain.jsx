@@ -22,7 +22,6 @@ const TopMain = ({ isUserVisible, setIsUserVisible, setAllUserClicked }) => {
   const toMainPage = () => {
     setIsUserVisible(true);
     setAllUserClicked(false);
-    set
 
     // Hide the create user form when returning to the main page
     setCreateUserVisible(false);

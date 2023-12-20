@@ -15,7 +15,7 @@ function App() {
   const [showHideButtonVisible, setShowHideButtonVisible] = useState(true);
   const [recievingUsers, setRecievingUsers] = useState([])
   const [singleUser, setSingleUser] = useState(null)
-  const [singleUserTasks, setSingleUserTasks] = useState(null)
+  const [singleUserTasks, setSingleUserTasks] = useState([])
   const [allUserClicked, setAllUserClicked] = useState(false)
 
   const handleDateClick = (date) => {
@@ -38,6 +38,7 @@ function App() {
     setSingleUserTasks(data)
     console.log(data)
     setAllUserClicked(false)
+    console.log(singleUserTasks)
   }
 
   const createUser = async () => {
@@ -91,11 +92,14 @@ function App() {
       {showCalendar && (
         <Calendar
           getSingleUserTasks={getSingleUserTasks}
+          singleUser={singleUser}
+          singleUserTasks={singleUserTasks}
           onDateClick={handleDateClick}
           setSelectedDate={setSelectedDate}
           Calendar={Calendar}
         />
       )}
+      <TasksOfTheDay TasksOfTheDay={TasksOfTheDay} singleUserTasks={singleUserTasks}/>
     </>
   );
 }

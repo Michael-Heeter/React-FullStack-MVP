@@ -42,16 +42,18 @@ const Calendar = (props) => {
   
 
   const handleDateClick = (date) => {
-    if (date && date.dueDate) {
-      console.log(date.dueDate.toDateString()); // Log the due_date when clicked
+    if (date) {
+      const id = date.toISOString().split('T')[0];
+      console.log(`Clicked on date with ID: ${id}`);
       props.setSelectedDate(date.dueDate);
       setSelectedDayTasks(date.tasks || []); // Set the tasks for the clicked date
     }
   };
 
+
   useEffect(() => {
     // Create the calendar when the year or month changes
-    createCalendar(year, month);
+    createCalendar(year, month)
   }, [year, month]);
 
   return (
@@ -61,15 +63,15 @@ const Calendar = (props) => {
             <button onClick={() => setMonth(month === 1 ? 12 : month - 1)}>Previous Month</button>
             <button onClick={() => setMonth(month === 12 ? 1 : month + 1)}>Next Month</button>
             <button onClick={() => setYear(year + 1)}>Next Year</button>
-        </div>
-        <div>
-            <h2>{`${new Date(year, month - 1, 1).toLocaleString('default', {
-                month: 'long',
-            })} ${year}`}</h2>
-        </div>
-        <table id="themonthlycalendar">
+            </div>
+            <div>
+        <h2>{`${new Date(year, month - 1, 1).toLocaleString('default', {
+          month: 'long',
+        })} ${year}`}</h2>
+      </div>
+      <table id="themonthlycalendar">
         <thead>
-            <tr>
+          <tr>
             <th>MO</th>
             <th>TU</th>
             <th>WE</th>
@@ -77,30 +79,46 @@ const Calendar = (props) => {
             <th>FR</th>
             <th>SA</th>
             <th>SU</th>
-            </tr>
+          </tr>
         </thead>
         <tbody>
-        {createCalendar(year, month).map((week, index) => (
-          <tr key={index}>
-            {week.map((date, idx) => (
-              <td key={idx} onClick={() => handleDateClick(date)}>
-                {date ? (
-                  <div>
-                    {date.getDate()}
-                    {/* Pass the tasks of the clicked date to TasksOfTheDay */}
-                    {selectedDayTasks.length > 0 && <TasksOfTheDay tasks={selectedDayTasks} />}
-                  </div>
-                ) : (
-                  <div style={{ visibility: 'hidden' }}></div>
-                )}
-              </td>
-            ))}
-          </tr>
-        ))}
-      </tbody>
-        </table>
+          {createCalendar(year, month).map((week, index) => (
+            <tr key={index}>
+              {week.map((date, idx) => (
+                <td key={idx} onClick={() => handleDateClick(date)}>
+                  {date ? (
+                    <div>
+                      <div id={date.toISOString().split('T')[0]}>
+                        {date.getDate()}
+                        {/* Conditional rendering based on date ID */}
+                        {props.singleUserTasks.map((task) => {
+                          const taskDueDate = new Date(task.due_date);
+                          const taskFormattedDate = taskDueDate.toISOString().split('T')[0];
+
+                          if (taskFormattedDate === date.toISOString().split('T')[0]) {
+                            return (
+                              <div key={task.id} className="additional-content">
+                                {task.name}
+                              </div>
+                            );
+                          }
+
+                          return null;
+                        })}
+                      </div>
+                    </div>
+                  ) : (
+                    <div style={{ visibility: 'hidden' }}></div>
+                  )}
+                </td>
+              ))}
+            </tr>
+          ))}
+        </tbody>
+      </table>
     </div>
-    );
+  );
 };
 
 export default Calendar;
+
