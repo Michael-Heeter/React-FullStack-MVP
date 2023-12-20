@@ -85,7 +85,7 @@ function App() {
 
   return (
     <>
-      <TopMain isUserVisible={isUserVisible} setIsUserVisible={setIsUserVisible} setAllUserClicked={setAllUserClicked} setShowCalendar={setShowCalendar}/>
+      <TopMain isUserVisible={isUserVisible} setIsUserVisible={setIsUserVisible} setAllUserClicked={setAllUserClicked} setShowCalendar={setShowCalendar} setTaskListVisible={setTaskListVisible}/>
       {isUserVisible && <MainPage MainPage={MainPage} />}
       {/* Conditionally render the show/hide button based on showHideButtonVisible */}
       {showCalendar && (

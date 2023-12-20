@@ -147,28 +147,26 @@ app.patch('/api/task/:id', async (req,res, next) => {
 })
 
 //delete task of user
-app.delete('/api/task/:id', async (req,res, next) => {
-  try{
-      console.log('delete path')
-      const id = parseInt(req.params.id)
-      if (isNaN(id)){
-          return res.status(400).send('Bad Request: Invalid pet index')
-      }
-      const task = await pool.query(`SELECT * FROM tasks WHERE id = $1`, [id])
-      if(task.rowCount === 0){
-          res.status(404).send('No task found at this location')
-      }
-      const deleteTask = await pool.query(`DELETE FROM task WHERE id = $1`, [id])
-      if(deleteTask.rowCount === 1){
-          res.status(200).json(pets[id])
-      }else{
-          res.status(500).send('failed to delete task')
-      }
-  }catch (error) {
-      console.log('delete path')
-      next(error)
+app.delete('/api/task/:id', async (req, res, next) => {
+  try {
+    const id = parseInt(req.params.id);
+
+    if (isNaN(id)) {
+      return res.status(400).json({ error: 'Bad Request: Invalid task ID' });
+    }
+
+    const task = await pool.query('DELETE FROM tasks WHERE id = $1 RETURNING *', [id]);
+
+    if (task.rowCount === 0) {
+      return res.status(404).json({ error: 'No task found at this location' });
+    }
+
+    res.status(200).json(task.rows[0]);
+  } catch (error) {
+    console.error('Error during task deletion:', error);
+    res.status(500).json({ error: 'Failed to delete task' });
   }
-})
+});
 
 app.listen(5000, () => {
   console.log("server running");
